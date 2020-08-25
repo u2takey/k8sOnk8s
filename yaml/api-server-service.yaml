@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.kubernetes.io/loadbalance-id: lb-dlkkb2f9
+    service.kubernetes.io/qcloud-loadbalancer-internal-subnetid: subnet-8tzuhzrt
+  name: my-kubernetes
+spec:
+  ports:
+  - name: tcp-80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: tcp-443-443
+    port: 443
+    protocol: TCP
+    targetPort: 443
+  selector:
+    app: my-kubernetes
+  sessionAffinity: None
+  type: LoadBalancer

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scheduler
+  labels:
+    app: scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "scheduler"
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 100%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        eks.tke.cloud.tencent.com/cpu-type: amd
+        eks.tke.cloud.tencent.com/security-group-id: sg-56mfwq82
+      labels:
+        app: "scheduler"
+    spec:
+      containers:
+      - name: scheduler
+        image: ccr.ccs.tencentyun.com/leiwang/hyperkube:v1.18.6-rancher1
+        imagePullPolicy: Always
+        args: 
+        - kube-scheduler
+        - --leader-elect=true
+        - --kubeconfig=/var/lib/kubernetes/kube-scheduler.kubeconfig 
+        - --v=2
+        resources:
+          requests:
+            memory: 250Mi
+            cpu: 250m
+          limits:
+            memory: 250Mi
+            cpu: 250m
+        volumeMounts:
+          - name: config
+            mountPath: /var/lib/kubernetes
+      volumes:
+        - name: config
+          configMap:
+            name: config

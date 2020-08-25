@@ -1,0 +1,646 @@
+apiVersion: v1
+data:
+  admin-csr.json: |
+    {
+      "CN": "admin",
+      "key": {
+        "algo": "rsa",
+        "size": 2048
+      },
+      "names": [
+        {
+          "C": "US",
+          "L": "Portland",
+          "O": "system:masters",
+          "OU": "Kubernetes The Hard Way",
+          "ST": "Oregon"
+        }
+      ]
+    }
+  admin-key.pem: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEpQIBAAKCAQEA0RJE+KhwmNV76tQIPT3Zjmuwoht5+GvVZ9QNm6xyMGyIVwCM
+    WgJ4/doFV/LQ2+4MupfGrNd4+OmyWSd9GDm3+DCAqDclJoWWxNxpPWcvDXmb0b5x
+    ceJX4ip5G+QF+DQ1L+ZBYe/dz7TUr3uW2u5wggSIUT/sg/oKHq+tfGoYealYUvll
+    RKeMG/c0higB6G+//lvVkMkOErW2RxM1wL8BZISAvLg23/Qp8o0Qgq6c3zLs1yGp
+    YXG0VyqBN+HDXKCoqxnD2H7gCGTm2ePY7HhS7nIcLWNs/cIKKni1umhU6/mX25AN
+    jwvsoEgQ00fuLM88VvlcA0ha0XskZOEfki/kkQIDAQABAoIBAQCHoneWbghmTpGO
+    3jHeMULz749vC65MaQDQ1DRj2zNVkQO+lb94IYSHA6tVzFSNadleMFsXBM8ZhNtM
+    lZ7FWaStYiIFf4kdfas7Wdb4m/ldn5hkMU392R60vmNFod/xj0U2JwYh2HCpcKJO
+    mjpbHDdnUjNxqqvxTwTDtasyPM5WFkeomSuxQciXQX3aAB6PjcWq7u8I9SHmypNo
+    sqJ89gOvAs2Vuzk7Th6tkwLYtJjiYuESlHdL1TDG3VblREvfjGJM7FgGJU3QauMJ
+    wCuQ4WYatWKza5OFojjgHsrTPNV7Ark94hWByhGF1Xzd+UeX08Qt3A9DtTrpzHtC
+    G75fXidFAoGBAPDI3IjIEYuF74uoSG3MiKjG1HQ7zC2fU1XJpDbhJ1TNGilMMjZD
+    FPq2iiPpQYi9z9YX5PPqqprul/dStAm5X7YDoYzeETXg79EC9N4rcK3dFnVDSApe
+    OGvnfxu2GSljB1RfTPuAC9+llA4QGnDkj4VTkDszqq92Yo5Z0u15gBFLAoGBAN5I
+    YyBCAOuViq23fSdn2Ff4RfkTsZn/f7j/sboAD7UWTTOnHjwP6MOjilrRUUaLnPSA
+    jEpuRFdGcaouz0uJU0DDqyv8myYBFijbQWOAzw1oO9unlwkLs9jnwEG9shMex9yC
+    L1AZ2lIKyqJKCzzivJSzgkoo0NnmIJscAst4xlQTAoGAQl4a61i5/Usdi9EGpb0K
+    rfqf9KnGzYxs2+iIatgEj0s5OsjVzj8POUu3J87TUW2AK/LKGLFF9Q5utK0HEucV
+    ioXVsY5EECW/9ExsUhCHLmUSG6A/6xutUZCtaGX46X9yNb9O6MOSgkKRXI7zuspF
+    BOrThn3nPhXTdIktqmci9aECgYEApp4yF4sCL5Ufp4mj+bbAl2hV4xedCCdZsO2R
+    ZjAHliEKa454fmMaghODcQH3315ln20APAadmaIHL5746dEdI63IECfAkGM+HhAD
+    2rdB/PXF8KeV8kTgYdWN6nlsEyL+g07ecjd+zAKk07OW6uO2oexQ3I/txXfXtwzv
+    F2AHohsCgYEAtmkRrZldmhtF1GpAk9WbDbBm2t4x+C++CKAty5kY9Lp4VW4co9bY
+    AVYX13NXX0fFXi/c4jnkrUNPumdc2PiZl1UsuaGJqwzcC/+fpxjONYvod4VMFG25
+    vjd3SESpC61XVcaAIn9MvGo9r0KEKPasYU7El9dJlK6oruAWb+JHiTc=
+    -----END RSA PRIVATE KEY-----
+  admin.csr: |
+    -----BEGIN CERTIFICATE REQUEST-----
+    MIICwTCCAakCAQAwfDELMAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8G
+    A1UEBxMIUG9ydGxhbmQxFzAVBgNVBAoTDnN5c3RlbTptYXN0ZXJzMSAwHgYDVQQL
+    ExdLdWJlcm5ldGVzIFRoZSBIYXJkIFdheTEOMAwGA1UEAxMFYWRtaW4wggEiMA0G
+    CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDREkT4qHCY1Xvq1Ag9PdmOa7CiG3n4
+    a9Vn1A2brHIwbIhXAIxaAnj92gVX8tDb7gy6l8as13j46bJZJ30YObf4MICoNyUm
+    hZbE3Gk9Zy8NeZvRvnFx4lfiKnkb5AX4NDUv5kFh793PtNSve5ba7nCCBIhRP+yD
+    +goer618ahh5qVhS+WVEp4wb9zSGKAHob7/+W9WQyQ4StbZHEzXAvwFkhIC8uDbf
+    9CnyjRCCrpzfMuzXIalhcbRXKoE34cNcoKirGcPYfuAIZObZ49jseFLuchwtY2z9
+    wgoqeLW6aFTr+ZfbkA2PC+ygSBDTR+4szzxW+VwDSFrReyRk4R+SL+SRAgMBAAGg
+    ADANBgkqhkiG9w0BAQsFAAOCAQEAtmCWSJdszBhLzVoZt8MbRq94aBauIfI83Oln
+    neQz/PctRzdx4/Xfj0ALoLTbzrkdbTsqZXwf+APFZhuzb13OIccna+gzBOSgt3Xd
+    buEalrQdd1/Ze+p9MFLqxdyKRsJwBHgt5nWgXipwxZaLXsGhIj1dk1J2zcQoHY30
+    Ao93DHUnTfs6hWBOjJSUCUvdwPpeEkz6fQjoo/wAPzxvzXWJXIi8n+NvoYmWIFfr
+    tMV2KAeNWoCocIs2Y4k075Rbfe78JlYFD929+Ebg865BdBK0bkP82T+AlaG4HTPg
+    Qpw3Uqmb1fNCNPZy8B1JHCh3M5dz2eZpxAJxqsSGq7Zu1re6NQ==
+    -----END CERTIFICATE REQUEST-----
+  admin.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIID8TCCAtmgAwIBAgIUBWLWZ0PaN3fMNit0nkFPPNkCNXYwDQYJKoZIhvcNAQEL
+    BQAwaDELMAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8GA1UEBxMIUG9y
+    dGxhbmQxEzARBgNVBAoTCkt1YmVybmV0ZXMxCzAJBgNVBAsTAkNBMRMwEQYDVQQD
+    EwpLdWJlcm5ldGVzMB4XDTIwMDgyNTAyMzYwMFoXDTIxMDgyNTAyMzYwMFowfDEL
+    MAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8GA1UEBxMIUG9ydGxhbmQx
+    FzAVBgNVBAoTDnN5c3RlbTptYXN0ZXJzMSAwHgYDVQQLExdLdWJlcm5ldGVzIFRo
+    ZSBIYXJkIFdheTEOMAwGA1UEAxMFYWRtaW4wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+    DwAwggEKAoIBAQDREkT4qHCY1Xvq1Ag9PdmOa7CiG3n4a9Vn1A2brHIwbIhXAIxa
+    Anj92gVX8tDb7gy6l8as13j46bJZJ30YObf4MICoNyUmhZbE3Gk9Zy8NeZvRvnFx
+    4lfiKnkb5AX4NDUv5kFh793PtNSve5ba7nCCBIhRP+yD+goer618ahh5qVhS+WVE
+    p4wb9zSGKAHob7/+W9WQyQ4StbZHEzXAvwFkhIC8uDbf9CnyjRCCrpzfMuzXIalh
+    cbRXKoE34cNcoKirGcPYfuAIZObZ49jseFLuchwtY2z9wgoqeLW6aFTr+ZfbkA2P
+    C+ygSBDTR+4szzxW+VwDSFrReyRk4R+SL+SRAgMBAAGjfzB9MA4GA1UdDwEB/wQE
+    AwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIw
+    ADAdBgNVHQ4EFgQUhi21rSSeEqmgzp3T6AZ8qZ7g6TMwHwYDVR0jBBgwFoAUPkQm
+    UQVTR49mirTWboC+gpkosXowDQYJKoZIhvcNAQELBQADggEBAHddo9sH/PE6ZP+C
+    9xD8f2sKGrgszzpcetwVEnKxfN+YNU1myndMMVEBcw+bxpSuGl8qWP41Yf1aZQyq
+    lgXUmrx8E5MzLJ8Tqqw2Y9MMSEuevKIS/2bAAsv35urHu0YwuKWruRsnxTa2zS84
+    m4exjMuvnlxnmoGq03CtGayiq9fPmy5LffpnKMJ++X/iHgoqx39gXDmwE4fOrh7p
+    +dXK0BZLX52T/sCDj5G+zwZZd9D8I94SmY7YCOuFEKTkAXKzkW7tD6nxFga311jc
+    UnsKSe/e4wecxhk81O4sVC/p2UfOmzZ76ieQ94WLoEck8m6I7Bm7/5QMkDHMwwaT
+    9hV1iX4=
+    -----END CERTIFICATE-----
+  ca-config.json: |
+    {
+      "signing": {
+        "default": {
+          "expiry": "8760h"
+        },
+        "profiles": {
+          "kubernetes": {
+            "usages": ["signing", "key encipherment", "server auth", "client auth"],
+            "expiry": "8760h"
+          }
+        }
+      }
+    }
+  ca-csr.json: |
+    {
+      "CN": "Kubernetes",
+      "key": {
+        "algo": "rsa",
+        "size": 2048
+      },
+      "names": [
+        {
+          "C": "US",
+          "L": "Portland",
+          "O": "Kubernetes",
+          "OU": "CA",
+          "ST": "Oregon"
+        }
+      ]
+    }
+  ca-key.pem: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEpAIBAAKCAQEA58s2z/jlSFidPCuoGUHIc0ugHYCT3tTB6CTeaQRmmjflNKSo
+    eIfUqO9JcvCDGo7YIV9RC190GahkR7+udQ/79MEg/i/kC4ahuPmvh3qxhzEdCpmX
+    yLu4DMvFiqvUcusGPZmN+umo8fmtlshmcuqIiClLsAK81AJVP5cCDsou6HBgUIFf
+    NvUdJpNUhruBmmiavk76tmxGo9AP3oUxGWUhaPnH6SKbAsPRLudOUmtmOqmReNgT
+    ZPHTRywvk1BF9asBi41ZxILVR4IYi/IRxV6PZP7AVdU12IxBf2E1E17l7qRq6t00
+    mBYHSD0gwkE9atnO5XLQdAT0dbOvOCSSxdbQcQIDAQABAoIBAQCWn5QnwypjP8o1
+    Hn1mpDu4yEzsvu/YHlM/Ii4w+f4eevIDqngbktCbUptdCHN5X5eM4B6PEGEmhylb
+    AnFAermUi6d/5ej/oGYZCI+Kry0Ll9uyVqquc2WfUw80FILChn0QrGb5xLrXOxMV
+    Z3ZDeKpuKL+ZSb4g2r9AykU5DSM8QQU0gJ7o6Zc7F79thyOpimp88hDPqRUT2Cdr
+    VOVYxsUh0u+dJro4KdeT7aTWlsTAttQgs+1fUCUqgoKDZi9eMJA5dC6zfFLlWSyr
+    od5JetD+Pllffys76SHZUBOa55tIk3jFYFeg02BVWredB6Agrar+CtEr5aLaogQ4
+    l9+VFV49AoGBAP9U4y//onnP+rUDxEGbUwgQ9cGa15I+CSCPT+ERRi/gDxktztA3
+    dMlLOPxOaBd2mBVoL8yOfKXu1MV0eRYwqBoRF5Uor170QIHBPb2yZj1MTIYvEeK/
+    TCwBs/Ddrov9eX5lWyXY0bOpxSwmUMIry0PJDoqt5Vp1ytJ9RZxMW5rLAoGBAOhm
+    jXiDhipXGevgY4wL3Rjq6YMPOPHmGnJ4rYPWosIXNsm7z+prfUt0+IxiHW+499Rl
+    lWUe7pOxuvXT77/27dB5Kki8xf0fdQJJIp9yXhT0uRUOnNYbVYJn1qd6rCLm9ksm
+    r7Hd4ENJw5zrPnhY2ingBakd/BIaL3oZoyf0A64zAoGAImzLhLkuqsXDw4wSddX/
+    R+Mhf0zlK655hI5N8sZldCb9YiOu8pvHfyxJLptTpXYz4w79AtNjMuwUe9rMSJWe
+    1IThbRbjLiY4XEY1kNHwvur+lkjaXHv2RSilniAFXJJ8QvJfa6bj/xkwoFc6JDPL
+    YARHlaMEfUHMarzBGeWhpCkCgYEA4Z++tUOrm6uYZOIigzJ5Ytmd/zlmJaMqBfyX
+    KKnWtexnqo8GGiZlLD7RlykiPvcq1DATTGstYIJqaoNp/cqzs3QO0zNCXK6PoLp0
+    PKyCHoJAterL5SoAaGx7f3mfaPsmHmveoyYvteQFX3Eb4ycQFxuBI2ES+lglw7rk
+    JcPHVvUCgYBZV/b1548HahFdrkOGVXo8KowVlzZL744MdtF0CwZ40s89evLhlHA/
+    0KMumHgPhW1QOA5GYMGH/pSbAgB2e99ZRbHLHvuQiZ6BPymDfFNBwB+DF9yf5UNb
+    Z/jhYrj1dwBG8rofOgUzAoY7M4DiakfHelV+XX7rda24C6BdJpKp8g==
+    -----END RSA PRIVATE KEY-----
+  ca.csr: |
+    -----BEGIN CERTIFICATE REQUEST-----
+    MIICrTCCAZUCAQAwaDELMAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8G
+    A1UEBxMIUG9ydGxhbmQxEzARBgNVBAoTCkt1YmVybmV0ZXMxCzAJBgNVBAsTAkNB
+    MRMwEQYDVQQDEwpLdWJlcm5ldGVzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
+    CgKCAQEA58s2z/jlSFidPCuoGUHIc0ugHYCT3tTB6CTeaQRmmjflNKSoeIfUqO9J
+    cvCDGo7YIV9RC190GahkR7+udQ/79MEg/i/kC4ahuPmvh3qxhzEdCpmXyLu4DMvF
+    iqvUcusGPZmN+umo8fmtlshmcuqIiClLsAK81AJVP5cCDsou6HBgUIFfNvUdJpNU
+    hruBmmiavk76tmxGo9AP3oUxGWUhaPnH6SKbAsPRLudOUmtmOqmReNgTZPHTRywv
+    k1BF9asBi41ZxILVR4IYi/IRxV6PZP7AVdU12IxBf2E1E17l7qRq6t00mBYHSD0g
+    wkE9atnO5XLQdAT0dbOvOCSSxdbQcQIDAQABoAAwDQYJKoZIhvcNAQELBQADggEB
+    AEcSdPv/VIpDu1EVksR+6GY+668kZT5chsyqjwZYR8eInXp8uBgViTwS8v9tDMgo
+    RAah2Zp+knZYjIa3AT7zNthylRATbuqqFIiGFiO0Bn8S5/nuo17QA5gU49cpVhLB
+    VOaUIu42ydKqn4IY0rKDKPkNzIY+bd2QvRfzjDg5EPfuYKTGBU4ym5xbqfAGja6k
+    +lX8VtOYmIZ9UCZHEv/nwQJEu9/BC2VFsFx77i8jEDIo6+Ul+5GPT8ZbTqJYfnqE
+    twNq239yAGjB1Ydvbs63wjp7tjMFCSwZX+N68dly2iyXk5HH6gwkUHKo3r19mxwB
+    M4wnvRwf059RZa+2z5c97bM=
+    -----END CERTIFICATE REQUEST-----
+  ca.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIIDoDCCAoigAwIBAgIURM6nBFOA+sXVtVJ6CT1X/CaNFzgwDQYJKoZIhvcNAQEL
+    BQAwaDELMAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8GA1UEBxMIUG9y
+    dGxhbmQxEzARBgNVBAoTCkt1YmVybmV0ZXMxCzAJBgNVBAsTAkNBMRMwEQYDVQQD
+    EwpLdWJlcm5ldGVzMB4XDTIwMDgyNTAyMzEwMFoXDTI1MDgyNDAyMzEwMFowaDEL
+    MAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8GA1UEBxMIUG9ydGxhbmQx
+    EzARBgNVBAoTCkt1YmVybmV0ZXMxCzAJBgNVBAsTAkNBMRMwEQYDVQQDEwpLdWJl
+    cm5ldGVzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA58s2z/jlSFid
+    PCuoGUHIc0ugHYCT3tTB6CTeaQRmmjflNKSoeIfUqO9JcvCDGo7YIV9RC190Gahk
+    R7+udQ/79MEg/i/kC4ahuPmvh3qxhzEdCpmXyLu4DMvFiqvUcusGPZmN+umo8fmt
+    lshmcuqIiClLsAK81AJVP5cCDsou6HBgUIFfNvUdJpNUhruBmmiavk76tmxGo9AP
+    3oUxGWUhaPnH6SKbAsPRLudOUmtmOqmReNgTZPHTRywvk1BF9asBi41ZxILVR4IY
+    i/IRxV6PZP7AVdU12IxBf2E1E17l7qRq6t00mBYHSD0gwkE9atnO5XLQdAT0dbOv
+    OCSSxdbQcQIDAQABo0IwQDAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUwAwEB
+    /zAdBgNVHQ4EFgQUPkQmUQVTR49mirTWboC+gpkosXowDQYJKoZIhvcNAQELBQAD
+    ggEBAAUQTEawM+dSV12TDbC17K6yJ4xySUN8+WGuaG9udwZFGyK5YsiwxcjIyA3+
+    VwNZoPzJ9rFURgMti/lrx126/X6P1MdSniDr5BtXB844dWjGT3fvObYCWt7/8abz
+    3TXHLgMHOmq5f9XU26q50fAEFmu65rz8XZGHdZ7iEj58mmM838hEyxwIMxdkQzzs
+    fHPVCkXGDEDRXMHaPhebHvXvQAx+MsVAfd7/Bmnn4NfzacfBWrRMwYv8u1FcWUm6
+    mwLD/GW994InkvdV9mVBnXvYjUvsdzSCVPEpXPk0UiHSe396qYpyFh9WwNrfWv9w
+    Hfd8i+Nn4pKF2e+O11HfEOzR9/k=
+    -----END CERTIFICATE-----
+  kube-controller-manager-csr.json: |
+    {
+      "CN": "system:kube-controller-manager",
+      "key": {
+        "algo": "rsa",
+        "size": 2048
+      },
+      "names": [
+        {
+          "C": "US",
+          "L": "Portland",
+          "O": "system:kube-controller-manager",
+          "OU": "Kubernetes The Hard Way",
+          "ST": "Oregon"
+        }
+      ]
+    }
+  kube-controller-manager-key.pem: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEpAIBAAKCAQEAq5HLR+xijU+IDvbaMme66yhTTK30PVxvGXa9vFlWrOI6HKPh
+    ewi51Fs5Sx47ZxxEbQ07ds5l03lZIRp2FlR1DSlpufMMJJlsiN7O0QiRUKCJPeho
+    9n1FCPbPnqdZKFandU0OXrplanNXzhCgX2UIE+RDhoJZSOdwVPHgBMTqXWm8mowz
+    Hp4yJHFFrj8ixH5sW+IH8VEMgTWL2iW0B0m8cDUYXRQCvMl+u0QeRx7fYmtNo1hX
+    ewpyJrhyeAgh1V13rXQ2p1dw2kSj9Klad7oSjv3bkDGcDyC0n+lD1ecbHcTC6ioL
+    kKq/9/r6rAHeen+GF+q/JlwEbXtFbSWtI71lhQIDAQABAoIBAQCiKdNxz8P2vM1l
+    F311VwYdbqgNOf44YT3BW7JKbEa4cbtrhpqAp+a9CNxGW/TZqKYkTPV/feZQ08mi
+    uFgVEw7vuczsrQU1Mq6bT707ZlWzV4lgsmNDV3QA3QewdYyXzA/Ll2GVt6hTzWGY
+    q65pfBz+cCpC4MFzXw2VvGh5GYZLczFbiBia1SOPmf/GdgrkHK6VxVL/xBOqy+zk
+    u8lzHZNF8SyMACuiIZ10QJMbg48CVgUhKzUduvPGSjF4Aay9xCHw8FXBj0XCfSNi
+    wQX4k0B8/PLrr6bOEvm9pkZ0NgYf7DU+6wZcenq4QM2lHJJaKZuYif80XtzhveQ2
+    p+ZiMR2hAoGBANE4n8y8gcgcIS6O3062Ia3yze4rua5XZnDhPt+HwKT4H0B9ue3K
+    3kLJu2/eyqmHYu8d1DS62lho3FxMvndgWte1AvwyluEkSUWHo3XISaABk6/nY/hJ
+    67Nqkk1pZEOPZQq42Odz6f3qzjzF+/pd2ITa8kjBmZ56kmV4XQS8yu3PAoGBANHu
+    EVimficHbiV4OKTmjqgM4pp+pM9W8MONpTWSty/auWyhcKotio/uGoVcTMLO4MvL
+    ksoTAhrcUX2+Xj5yB/L379yVujdckejTCNU0pDfmMnYUYHVT1GXhQz2YqeD0S3bQ
+    36ZphQ0XV+WD/BLmagO1fe9w1cR4kYAGMMhdVABrAoGAdwNe43fX250kwvdCz+OL
+    BQg5XGJDHYlaHJwEx+LREwaRwH3EZiAgjp1yohB5+DWrcZnmPJiN2/zKXTbKod2N
+    z2aIbC3a5fdeNs8RjM6CEyLSgB2AIJzsFwNodeCdyFCpiY/c0sx9LpOC/c8hpyn7
+    IJfreremSyAuZsoxH6DFTsECgYEA0PqFGhLjkka7R2GeQcmiSXhKPDHGLwEFPCZN
+    SD99TI4X+CPd3Arp3M3SaN+xKlx3O2iz/6VcexDHrr1LZC5v61cV2CjU7zefqH4s
+    VNHKiDsIELPIMgP5dFICddb7hYyrcuQLP8XbRWTvgvMYhFgLQRXy/+D7bFH5xdBj
+    z5HYhXECgYBke8QykPC4x+VGq4qJiPGaN6BfLEDde/QX13CXqEd0pWHW77SRnbG4
+    5qjC+3Y1tL1unDamUA0bxcmvoYTeXCqcJ7WjfDB2EUVfVBE0IUgmDDimdZvj3wWc
+    rZ8HbtqPDGf8kQWIAuHSdX9AR7TXGqDKsXWlURGi4DyZh7Snf8gYJg==
+    -----END RSA PRIVATE KEY-----
+  kube-controller-manager.csr: |
+    -----BEGIN CERTIFICATE REQUEST-----
+    MIIC6zCCAdMCAQAwgaUxCzAJBgNVBAYTAlVTMQ8wDQYDVQQIEwZPcmVnb24xETAP
+    BgNVBAcTCFBvcnRsYW5kMScwJQYDVQQKEx5zeXN0ZW06a3ViZS1jb250cm9sbGVy
+    LW1hbmFnZXIxIDAeBgNVBAsTF0t1YmVybmV0ZXMgVGhlIEhhcmQgV2F5MScwJQYD
+    VQQDEx5zeXN0ZW06a3ViZS1jb250cm9sbGVyLW1hbmFnZXIwggEiMA0GCSqGSIb3
+    DQEBAQUAA4IBDwAwggEKAoIBAQCrkctH7GKNT4gO9toyZ7rrKFNMrfQ9XG8Zdr28
+    WVas4joco+F7CLnUWzlLHjtnHERtDTt2zmXTeVkhGnYWVHUNKWm58wwkmWyI3s7R
+    CJFQoIk96Gj2fUUI9s+ep1koVqd1TQ5eumVqc1fOEKBfZQgT5EOGgllI53BU8eAE
+    xOpdabyajDMenjIkcUWuPyLEfmxb4gfxUQyBNYvaJbQHSbxwNRhdFAK8yX67RB5H
+    Ht9ia02jWFd7CnImuHJ4CCHVXXetdDanV3DaRKP0qVp3uhKO/duQMZwPILSf6UPV
+    5xsdxMLqKguQqr/3+vqsAd56f4YX6r8mXARte0VtJa0jvWWFAgMBAAGgADANBgkq
+    hkiG9w0BAQsFAAOCAQEAas7lpmfuX7UldSLSgVdlfxLF7eBhyFUVcnxaUEjqmIT4
+    Ylncp77lu7WdVorDQIJtN69NWoU5enFo9zkxtkwEbbdnbUn+T+DFtiUj75WHPkR3
+    6BfEkP2CzmCg4B5hzhFUf6gH6mZYK28Wy7WgD+ouue9QIu80cDFEJEqd8O2SPw41
+    iFPl/p3ZtjHFd6pZwI/fMGYyskg7mM+ofpqW1+cNM3S3q4bHdztr94TTGoO3/pCm
+    7uTmRBQ1AtwH3qhZ2ZmUSDEP8xQ9Z/jd3gilwM8TngbhgAMVJ2wiXtcy8SOZAFx5
+    7UpGGvGrt/pJzsfC7qWnYLuGP6TQgFBByNIh6Rn11Q==
+    -----END CERTIFICATE REQUEST-----
+  kube-controller-manager.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIIEGzCCAwOgAwIBAgIUYfYkHgEPiq3MPq+sM8UhuVwSLjIwDQYJKoZIhvcNAQEL
+    BQAwaDELMAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8GA1UEBxMIUG9y
+    dGxhbmQxEzARBgNVBAoTCkt1YmVybmV0ZXMxCzAJBgNVBAsTAkNBMRMwEQYDVQQD
+    EwpLdWJlcm5ldGVzMB4XDTIwMDgyNTAyMzgwMFoXDTIxMDgyNTAyMzgwMFowgaUx
+    CzAJBgNVBAYTAlVTMQ8wDQYDVQQIEwZPcmVnb24xETAPBgNVBAcTCFBvcnRsYW5k
+    MScwJQYDVQQKEx5zeXN0ZW06a3ViZS1jb250cm9sbGVyLW1hbmFnZXIxIDAeBgNV
+    BAsTF0t1YmVybmV0ZXMgVGhlIEhhcmQgV2F5MScwJQYDVQQDEx5zeXN0ZW06a3Vi
+    ZS1jb250cm9sbGVyLW1hbmFnZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+    AoIBAQCrkctH7GKNT4gO9toyZ7rrKFNMrfQ9XG8Zdr28WVas4joco+F7CLnUWzlL
+    HjtnHERtDTt2zmXTeVkhGnYWVHUNKWm58wwkmWyI3s7RCJFQoIk96Gj2fUUI9s+e
+    p1koVqd1TQ5eumVqc1fOEKBfZQgT5EOGgllI53BU8eAExOpdabyajDMenjIkcUWu
+    PyLEfmxb4gfxUQyBNYvaJbQHSbxwNRhdFAK8yX67RB5HHt9ia02jWFd7CnImuHJ4
+    CCHVXXetdDanV3DaRKP0qVp3uhKO/duQMZwPILSf6UPV5xsdxMLqKguQqr/3+vqs
+    Ad56f4YX6r8mXARte0VtJa0jvWWFAgMBAAGjfzB9MA4GA1UdDwEB/wQEAwIFoDAd
+    BgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNV
+    HQ4EFgQUo1lMvjdNNP16ebgkkswmzCQVruUwHwYDVR0jBBgwFoAUPkQmUQVTR49m
+    irTWboC+gpkosXowDQYJKoZIhvcNAQELBQADggEBANhWKUan+0Vf5+ZspBVhwgOb
+    DMxi/O/hG2Odkq1ynTAXtL5XcgxXMGWofLUFnm8ABITwor+tu2y7chuYkkCD9SnF
+    Zgq+6HprI93l+uba8B3Gf4my7O/bsRVkdP7QfW+m+FRpX7EQoQkvEJytJks1RVBM
+    EQQ//Gd41fBnDkowAfnToUJ0s70JellkfPZJigXEfEf/CnNfG1hI5Gjfs/xoE4bP
+    aE5uQ8SHHK4+40Ul68/5R/flJezmyhfigEhbO2c1x/Y/WQNRIZzt1Dc26S3bnOn1
+    /OWPbXop7GB83iL2n5ZHq3NyfomKaBgHRGm8dqH8XsYlEZua0B5SLAjgcRAwVKQ=
+    -----END CERTIFICATE-----
+  kube-proxy-csr.json: |
+    {
+      "CN": "system:kube-proxy",
+      "key": {
+        "algo": "rsa",
+        "size": 2048
+      },
+      "names": [
+        {
+          "C": "US",
+          "L": "Portland",
+          "O": "system:node-proxier",
+          "OU": "Kubernetes The Hard Way",
+          "ST": "Oregon"
+        }
+      ]
+    }
+  kube-proxy-key.pem: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEogIBAAKCAQEA5mUA/4VG4PWHyC3rMYS5JVEdV4RObSJXXow9tm/KRjoflgNr
+    98JSAazJzrdnExfmJOFSiTK6DqcVDwEV/FvZPI7pRjTdQGak30t0PThHc4dxxTql
+    IQuosr2G+FMt4XelJH3PNYiw+KRRx/q7M3sjE6/Oye62qOF2+gFC954sVylPeha8
+    n6asfXM+pqyC246lHZrsvZq92Mq732JG53PS87fyjjT6AvoI52jMRP1RBEBJWS3b
+    GVRNCB64vkdO561bcaB+KFvlu/hpmRIj4wdjbOEhWu7nRkJxA/IprLLrXOjcy0SD
+    UUimEvDH9fhrpmzOw+1DBWfHNqW/Lw+zKv8xkwIDAQABAoIBAB2eNG+kyYTX65mv
+    VYHrJwYGFHiQuKhM9uBftPtECcPXawIU9IdIQtSWSuc5KpYIx3xMPxkGHWcO0aU5
+    JYNop1eio5hz6VGDIITYJVxNZNoUOmr5bAsAfbJkrPo1bzuB7wfu6HlgVifQr/a+
+    Y9xtYwf/3NyWxIKXYX0oNlywx9B4b5nljSP33VKMNm8c8yTQAaeFDaXt6XSVsVz3
+    MFameOkUp7tbPN28iuRUdpq6nT6i9fmPn1JJ29FyelC8hI38N08F0ZrM1EwvGGYu
+    UQ8R4gvfRhT8yDLdD5eWzPHpwvua4nAc23OUvQWbzV6RXnO75wmOzMBCWy143Hdn
+    VIvu0dECgYEA7MdQ69z/d6HemysedY2Tr+Dmp27/Di8U2BTGhB+St64vRKpnGS5t
+    jdcgPd6c8cNTKrYjMX3t6srPmyobfzSmI8NRA7CVE36eY3wqBwD97WiHKOlrTOi6
+    p+gFHJSpufspV0idRLrMBLhjOhXPoOv6MRFQvJSfido9y9L35JH0zckCgYEA+RkE
+    IrHpEu9I4zERV00YNIuIobXu3uXPHI/6QFbw82tJRRbK3QCgRew8MPU2l6we9tDQ
+    mVKubNW3CsN02Y812cgaph0IFj4Zb7m0sV3MxvETwBmsSKs4Ch1nJ8A64HQTJE5x
+    DK5dQP1tCse8tYvbB0YzMuDAHQkl3QxtfxH+wnsCgYA2duabSpuNBjPxV2rLOYTG
+    SSJlUzfiKFxQE/9R9v1FuRBwaA4NEcvre5eUA7fwOLDRu1G/Gat3fa1hkL8AdLje
+    sxfYlG7GLDL8yVvVfpnqWUf11jNzXnlJFCrQ1zVvbWGmDTL300wIre1NOCUpa/6B
+    +OysZDeKeyQJ1X5mGljIWQKBgDJlUEPgsKHnDV0BkVuTOmFvFW56C2DHJ7bEnkGk
+    FU16GDHFIbfCp6pd1/OjuK7I4N7YckuCwc09E7I2xw44/hEYfeO7neY6HBVRgfAc
+    ZRCet3s29nchRM4vEq6lIoREl5bR0+dX44ABha0XqeMk72QyXKtfcx6suh9Vo1WB
+    A4S/AoGAJZmeDG45ePC6l697O/DpsbXg9/mwMhl/gJiM1C9YSuEvL/eybJInfXJe
+    ARNZAuv6MTHTitqhm7ME3bR541FN21/NUyuFluWuBoz+BQoXDwydUVVnZmHzhn62
+    sYdKBlT0HbOZmAOUuXIlI1Gi72fUAdm44rhrcnhKrPxsYLFNI2I=
+    -----END RSA PRIVATE KEY-----
+  kube-proxy.csr: |
+    -----BEGIN CERTIFICATE REQUEST-----
+    MIIC0zCCAbsCAQAwgY0xCzAJBgNVBAYTAlVTMQ8wDQYDVQQIEwZPcmVnb24xETAP
+    BgNVBAcTCFBvcnRsYW5kMRwwGgYDVQQKExNzeXN0ZW06bm9kZS1wcm94aWVyMSAw
+    HgYDVQQLExdLdWJlcm5ldGVzIFRoZSBIYXJkIFdheTEaMBgGA1UEAxMRc3lzdGVt
+    Omt1YmUtcHJveHkwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDmZQD/
+    hUbg9YfILesxhLklUR1XhE5tIldejD22b8pGOh+WA2v3wlIBrMnOt2cTF+Yk4VKJ
+    MroOpxUPARX8W9k8julGNN1AZqTfS3Q9OEdzh3HFOqUhC6iyvYb4Uy3hd6Ukfc81
+    iLD4pFHH+rszeyMTr87J7rao4Xb6AUL3nixXKU96Fryfpqx9cz6mrILbjqUdmuy9
+    mr3YyrvfYkbnc9Lzt/KONPoC+gjnaMxE/VEEQElZLdsZVE0IHri+R07nrVtxoH4o
+    W+W7+GmZEiPjB2Ns4SFa7udGQnED8imssutc6NzLRINRSKYS8Mf1+GumbM7D7UMF
+    Z8c2pb8vD7Mq/zGTAgMBAAGgADANBgkqhkiG9w0BAQsFAAOCAQEA0Nt8xbR2bWTW
+    qn12YI6NXeGsH7qZghplklqI92BySjqRnMFRlp3gYyHvso6r32MnO5XS3P6Hl+KA
+    Se/oGVJPgPjF1IGu2i3UKtqd0WguMHooQCDHgNiGYwzcCJhhNGANjUdbXMFdDB6Z
+    Fze7gll7g3xMb7aHDb3BbdzaPkP8LDrTSgEnKbfsPTTjea78DzpLgKuolGyJoT4X
+    +aTtFeha2Fyj34pkzksvjZhm4JQXuEqxjMnK9Xy7I6t8WhWFo8VEZppQsdqOyJ2D
+    X96GtigGTyHktbMAf4mlf/h3NF83z2i02Qzut3kLyK8PTh6O99Agu6XNWOW5oUCq
+    69MOEEYZig==
+    -----END CERTIFICATE REQUEST-----
+  kube-proxy.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIIEAzCCAuugAwIBAgIUf3ZetxKmfZ55BUAvv8+lN46Yc50wDQYJKoZIhvcNAQEL
+    BQAwaDELMAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8GA1UEBxMIUG9y
+    dGxhbmQxEzARBgNVBAoTCkt1YmVybmV0ZXMxCzAJBgNVBAsTAkNBMRMwEQYDVQQD
+    EwpLdWJlcm5ldGVzMB4XDTIwMDgyNTAyMzkwMFoXDTIxMDgyNTAyMzkwMFowgY0x
+    CzAJBgNVBAYTAlVTMQ8wDQYDVQQIEwZPcmVnb24xETAPBgNVBAcTCFBvcnRsYW5k
+    MRwwGgYDVQQKExNzeXN0ZW06bm9kZS1wcm94aWVyMSAwHgYDVQQLExdLdWJlcm5l
+    dGVzIFRoZSBIYXJkIFdheTEaMBgGA1UEAxMRc3lzdGVtOmt1YmUtcHJveHkwggEi
+    MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDmZQD/hUbg9YfILesxhLklUR1X
+    hE5tIldejD22b8pGOh+WA2v3wlIBrMnOt2cTF+Yk4VKJMroOpxUPARX8W9k8julG
+    NN1AZqTfS3Q9OEdzh3HFOqUhC6iyvYb4Uy3hd6Ukfc81iLD4pFHH+rszeyMTr87J
+    7rao4Xb6AUL3nixXKU96Fryfpqx9cz6mrILbjqUdmuy9mr3YyrvfYkbnc9Lzt/KO
+    NPoC+gjnaMxE/VEEQElZLdsZVE0IHri+R07nrVtxoH4oW+W7+GmZEiPjB2Ns4SFa
+    7udGQnED8imssutc6NzLRINRSKYS8Mf1+GumbM7D7UMFZ8c2pb8vD7Mq/zGTAgMB
+    AAGjfzB9MA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYB
+    BQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQU6pF7q83WiMUilmbLZlgBWxxE
+    CUQwHwYDVR0jBBgwFoAUPkQmUQVTR49mirTWboC+gpkosXowDQYJKoZIhvcNAQEL
+    BQADggEBAA6YCvPfL7e4dtebGoVHgLT/MEj/IgKv5KNp2ndU/WC3GYwebAQhGubE
+    oK+INgwAK2Abpu5NViITQ6SCRgWiq0e0was6ZqCdW8auLw22yutnn25H7S5s+6JR
+    tsb/dP2ikq4pw+uq4afclCQA/FKAW3rqkIoOo7v6kRV/D49ZfalIV0WOD8lgQ93x
+    9KBi8cdPY3uMIKzGeptNO5zl4tnCsvdGu18VJrxqE2GVoHHjTgqUKQn31Lc0sdr9
+    do0EYW2c18GgRxeUc8r4Jlvv6m+9GCJ8JdRBG/hQDymrsTL9x0YmeGHj0EwoOJWE
+    XU0TehXtXrz3so6atdUE0l4pGyS/ghM=
+    -----END CERTIFICATE-----
+  kube-scheduler-csr.json: |
+    {
+      "CN": "system:kube-scheduler",
+      "key": {
+        "algo": "rsa",
+        "size": 2048
+      },
+      "names": [
+        {
+          "C": "US",
+          "L": "Portland",
+          "O": "system:kube-scheduler",
+          "OU": "Kubernetes The Hard Way",
+          "ST": "Oregon"
+        }
+      ]
+    }
+  kube-scheduler-key.pem: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEpAIBAAKCAQEA2W6tboZa1m3tUNqDT9oT5Ex677l26OYhL7pNv6NjQqgUMbVf
+    2a7hQ5kNfegZbOoWgiD7YoU/uHZPmE4w415sE4V4y4boqQJ4Fi1kRX8f29P6LThE
+    SHEMDnaMXanjeA+WqfOUYF0SGwWuJ1sj/rn5YKfj7oBEqZX1A2DIqVmh0oDigpn4
+    YOLFKxmtiLnjaeozyRgzpdPnXwcAjaWFgs1soA8zsvbBuAWa8UKvNIJ6kL97PDpJ
+    XlmjyRBk4rC35b4/CP7I1kXHKjE0zHf0PGID8iUemf1OmWTS8JE2y9L6WrBk0Rj2
+    tLx1duTZAvzTQI6EvPyI87c5qFekkhLiIMx0zQIDAQABAoIBABB+4RF9h+60sEhu
+    C4BHXzL2ymzdeTP6IZJpY/SiBKnN7ppG1FrDdbuXJPrkXOlyaPq+XdP/n/Hyp986
+    L2NQioqAmcV3GreXxFyKXQ0Ys+YNkvFTT3rfeLawL737YZJ+PEPwgtU8ul7qc2fw
+    9i4hFdZLZnN1r7/d7JSxBwgyEKDTmo86j+y61o6iTcsG19fNkgBGu2HVhl5R0Gvj
+    mACnu5C9xN7lVCpZDPHM285tfT7Sb7CDDw6hoXTA49mxHFbjB6GNtjaCYQnCGHf2
+    qo0CfOTwif8xk4SnwqbB9VPgTPm0rRsZUgCUZvIzUIOgjCUSpUAaViH2+AdXAAj5
+    wFDp2gECgYEA60Hr6B5whzgQm/4XCBayuiiFTc3T8jk+6KCwUI2Q6v3hO0cqt29d
+    HeYfXmjtBBaydVoePmBhkjx5tzRvVQATC6mRAbvz4TlPHhUidRA8qznqSAvqI0vp
+    FqsquWni36EIdUg/G6F70PptW63hnmw3v8YowJkwKAbtg9nr4550WK0CgYEA7Jpq
+    92Aq0Bm112Tp+AW0mhKiXKZRgTQwXuROmKBlr4llfqseDtTZirISwbHF4PBI03qU
+    V4UJ+2OwZDp1zMHdh5PgtjQImiSfPsViIuwKeX7mqG9o6X0YgGo8DxpjZPiXuf+P
+    p+akjec9ehd4uI5giRif+SYoo70P89Kg2h/JcKECgYEAyG0/KGBWijzvmZad1JxR
+    5FuFRkXnHeQ7fkD4NYiGQE3PR4tYDzNnZ4OYkfxegS89FtGSFp5SQh4XrEeV2hrY
+    HwV1rr6MBgOnLf/ffVA5/761pG/SKAQSLufg3FojmVY+OH02lrm7HM1dwc+f+jJE
+    RLP0IDHiXxeX3s8YMrHaeXkCgYBD7+r68RAaBOfj20QbRXggLW2VcORCVzv0Y1X2
+    GUhZaPhNsNDGrXNxkcQ0/di1yAkBQFdL8hV1q6BAh1C/5IK5pUqGxtYZfJ6FJaQS
+    Jviy/i84+hSDxrm8VcS9CXS0z3SxoaIcMevaGyXZ4td1Fty9QObeYYiVy3nDJx2s
+    xCfRQQKBgQCnGFmeCfE95TMcK+Zz4Lzl3jLeb1jQIN/ICosm6XTGsoooGBENW410
+    w4a4SONg2jDNW9k6oMaM8+FEf3FbZdW3Gf8sjIA/mGenDyOMEUpB2oBmYijUZYBf
+    0hJMUfLP7QKk0S87b4y8CNE6SYrnC2zNEBco/MttEvtgh/rtTxtTDw==
+    -----END RSA PRIVATE KEY-----
+  kube-scheduler.csr: |
+    -----BEGIN CERTIFICATE REQUEST-----
+    MIIC2TCCAcECAQAwgZMxCzAJBgNVBAYTAlVTMQ8wDQYDVQQIEwZPcmVnb24xETAP
+    BgNVBAcTCFBvcnRsYW5kMR4wHAYDVQQKExVzeXN0ZW06a3ViZS1zY2hlZHVsZXIx
+    IDAeBgNVBAsTF0t1YmVybmV0ZXMgVGhlIEhhcmQgV2F5MR4wHAYDVQQDExVzeXN0
+    ZW06a3ViZS1zY2hlZHVsZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+    AQDZbq1uhlrWbe1Q2oNP2hPkTHrvuXbo5iEvuk2/o2NCqBQxtV/ZruFDmQ196Bls
+    6haCIPtihT+4dk+YTjDjXmwThXjLhuipAngWLWRFfx/b0/otOERIcQwOdoxdqeN4
+    D5ap85RgXRIbBa4nWyP+uflgp+PugESplfUDYMipWaHSgOKCmfhg4sUrGa2IueNp
+    6jPJGDOl0+dfBwCNpYWCzWygDzOy9sG4BZrxQq80gnqQv3s8OkleWaPJEGTisLfl
+    vj8I/sjWRccqMTTMd/Q8YgPyJR6Z/U6ZZNLwkTbL0vpasGTRGPa0vHV25NkC/NNA
+    joS8/IjztzmoV6SSEuIgzHTNAgMBAAGgADANBgkqhkiG9w0BAQsFAAOCAQEATgBY
+    mYFIFuWXF+OtK8/qeufgstwSbotf1lqloUnpAN9l6jmWdaagY8sRy9lJEozoK17f
+    XvUK25s9AXhA43nyrk+4pEd22WjdTaEe8D7RPD8jGBzHqF2Zpm5uoqKmiReGf+OW
+    fJfIxzO6XagRxnuU7Ve39WOKHFm5etB0BdqRxuuvuZwfDukOQWsXoYvAm+Ja2cka
+    76D9U13iun+2IsCAx5sM9uIy+k828qijh/BPV/9xqLGRtX6qWTou6J6H3HMON5cF
+    lCq5+Yi7YYS7Os68x5sjPPRcWNdJRC76PtwonlNFySKsksbqrPZmd/0svZ37ToRP
+    AcWmC98TGOdWF0IVCw==
+    -----END CERTIFICATE REQUEST-----
+  kube-scheduler.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIIECTCCAvGgAwIBAgIUQePiC3yZq4ZtBFBs6gzpUDG5T6YwDQYJKoZIhvcNAQEL
+    BQAwaDELMAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8GA1UEBxMIUG9y
+    dGxhbmQxEzARBgNVBAoTCkt1YmVybmV0ZXMxCzAJBgNVBAsTAkNBMRMwEQYDVQQD
+    EwpLdWJlcm5ldGVzMB4XDTIwMDgyNTAyNDAwMFoXDTIxMDgyNTAyNDAwMFowgZMx
+    CzAJBgNVBAYTAlVTMQ8wDQYDVQQIEwZPcmVnb24xETAPBgNVBAcTCFBvcnRsYW5k
+    MR4wHAYDVQQKExVzeXN0ZW06a3ViZS1zY2hlZHVsZXIxIDAeBgNVBAsTF0t1YmVy
+    bmV0ZXMgVGhlIEhhcmQgV2F5MR4wHAYDVQQDExVzeXN0ZW06a3ViZS1zY2hlZHVs
+    ZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDZbq1uhlrWbe1Q2oNP
+    2hPkTHrvuXbo5iEvuk2/o2NCqBQxtV/ZruFDmQ196Bls6haCIPtihT+4dk+YTjDj
+    XmwThXjLhuipAngWLWRFfx/b0/otOERIcQwOdoxdqeN4D5ap85RgXRIbBa4nWyP+
+    uflgp+PugESplfUDYMipWaHSgOKCmfhg4sUrGa2IueNp6jPJGDOl0+dfBwCNpYWC
+    zWygDzOy9sG4BZrxQq80gnqQv3s8OkleWaPJEGTisLflvj8I/sjWRccqMTTMd/Q8
+    YgPyJR6Z/U6ZZNLwkTbL0vpasGTRGPa0vHV25NkC/NNAjoS8/IjztzmoV6SSEuIg
+    zHTNAgMBAAGjfzB9MA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcD
+    AQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUbPoJWHt8TmkhM4F1
+    jrvfoL/UchMwHwYDVR0jBBgwFoAUPkQmUQVTR49mirTWboC+gpkosXowDQYJKoZI
+    hvcNAQELBQADggEBAC42Me7PywQa8RdylBUkygnkEMNL/FK3ksUt5i+D6b/CK7VX
+    rbRcfvnBBM9ypIng5WImyjsuIFmkPXuKc2lkAcNDdHtM8J30fuENhzAEH4DQhG7K
+    WMLMLZB9lCRSMFBvoRwBDU5jBHPI2QmdZ9XO8IsHwVG6rfwzCBviQPy5xQ6vWZ6U
+    MH7bzo2g76CBzGby5kveGCkci1Bd5MJSDJwzlECWNTVIaDEs3R1IUl3T4ZmjWGiP
+    9x3OSykrBt8+s284v0WUaEKlx6/YGyLQvqOTQwfRNoYPD/ijSW8RkBV/Zj5VXAzz
+    oREjKwcfsXy+Khw+bgOA6s8cJ0S2HUWDsN5Gbf4=
+    -----END CERTIFICATE-----
+  kubernetes-csr.json: |
+    {
+      "CN": "kubernetes",
+      "key": {
+        "algo": "rsa",
+        "size": 2048
+      },
+      "names": [
+        {
+          "C": "US",
+          "L": "Portland",
+          "O": "Kubernetes",
+          "OU": "Kubernetes The Hard Way",
+          "ST": "Oregon"
+        }
+      ]
+    }
+  kubernetes-key.pem: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEowIBAAKCAQEAsA/34nUBf366wcGlEYvmTMSlYbMKO0hU9kh4GcPS6sAvUHF0
+    M1U4ea/FI19wo243qSTE7pJdQd7LDz4TENsbuJ5oeve9LAryM8uC1TBeQbxqnXuw
+    msD/aNH9CrNLSNwIjRO5zUNaRkUDLZ9OIeSRG2DE30Q3gJKqeRGuS59gF8S3YOKh
+    qAL2FW3speRvcZ7GMvFWlLbGxcvE2u1Rg0nYt9pm19WHNjkD0SqGcGPLNQ7THVlV
+    jxa7fjCpNnm4y3bTzPQjXZu7MpS+H0PyXsLQ1AyCJfn5Pg4NOk8lY9RIAPZ6OkrS
+    D9FLIXva1sYHWu8yXbV0qbh9huQO9+Wtq7lQsQIDAQABAoIBABRSA34zmvSoH831
+    F6QqzW3W1G+uRmQJOSUjwBjZLSLDA7L5JTw3fcktrEck4M88DViMUd5nLjRIDo+3
+    zmOHpm9seQqYRVEsAkBQIM2SQ466vGNovz1dQR1L/zSY9Pt3ydTejfdO6sBpfrBp
+    To9C3iyWwqIyMWW5h8tpawB3aJPVg22PoK7/7ivSPGtZUFCDyvVm+OGdOKiKDLCs
+    XZjBqldZxg0F6oPEvcq2W7qeUiwh3fWqj7braYGDgiUiJ37nFrimDxtdRyzGQ9nN
+    5z2MQsHffHbgiWEdWDhaLOxS2jrwspbG9IB1vnpIFW/xOblChz+PXV63lKsS445q
+    yxWOWXECgYEA4Rin8gyugWXKcz7cobepo6xEWDuGej0uAM1L66bPJKTueA2s6clI
+    0Vq3uyNs6jjjkNJ1XUXwfy07SSeUWSwyhsab4dFly/EkUbDvcLvlMDl9zhcS1YQn
+    oCLO49yvZlek5gIRLMTCKLdtUhVtro9R2EATXXK72yw0+WhwTOz7ogsCgYEAyDvx
+    GYTWG8BGu2nQlKualbFBJ8EWgA2Z7wLmXSi431xK67d6Q3o7Aia0pAIH6OOqCZW8
+    qdoIksqhC9TPA8zNP6GY1vT69YyGeBI2sBbm0p8VmKHBFvHavQr3EyTd/ge2p5iy
+    kA8CtzGnHWZH6OORa+o8ho998OtIYOv6RLXB6bMCgYAK94GPOHD0Gvp/HOvw8RrR
+    v53g0p2drQdlwJrXU1w6Q9LehIQNK+JhWNMkyfgPfVARCT/wmGy8NX7y9Hu00INx
+    r5F+sg4MnqYPWNiBnJXxAIwRk2w2fObVVXzQ+zqMeO6uyiD+FmQDSdSIsESUwaTS
+    LWUEI4fliMTX9e+qv80OuwKBgQChWLPBlWmV+QzF7dEWS2UIJEnVR+DilJMqplKM
+    VMkLqunwIOuTPgYYiKnc0oofHnygtpjM4RUxe7fjubqKXFgzYvquk785Z9/fFwYc
+    RIgAxhH36LeXzpEs7Y4EThvXm82SJRgVvxK4HXmE1isxvVYr+BaHc07PeDfdaalD
+    /pXfwwKBgCPWAit4PEeRw5AzkKlWS5+iuUBdL2qAsbQzbCnB4P5MbDMLoo5lup57
+    v6avrFQQ8rp3jOxaNCvLRdLXScWCI76HZOeFR3UPSyqZq3ffsTs8DoBiXkICS+RA
+    OHIObcqmWeJgyjlnO5Hryf4P/HHPh5D2zjJ6qble7fMdrqInL8Zx
+    -----END RSA PRIVATE KEY-----
+  kubernetes.csr: |
+    -----BEGIN CERTIFICATE REQUEST-----
+    MIIDrzCCApcCAQAwfTELMAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8G
+    A1UEBxMIUG9ydGxhbmQxEzARBgNVBAoTCkt1YmVybmV0ZXMxIDAeBgNVBAsTF0t1
+    YmVybmV0ZXMgVGhlIEhhcmQgV2F5MRMwEQYDVQQDEwprdWJlcm5ldGVzMIIBIjAN
+    BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsA/34nUBf366wcGlEYvmTMSlYbMK
+    O0hU9kh4GcPS6sAvUHF0M1U4ea/FI19wo243qSTE7pJdQd7LDz4TENsbuJ5oeve9
+    LAryM8uC1TBeQbxqnXuwmsD/aNH9CrNLSNwIjRO5zUNaRkUDLZ9OIeSRG2DE30Q3
+    gJKqeRGuS59gF8S3YOKhqAL2FW3speRvcZ7GMvFWlLbGxcvE2u1Rg0nYt9pm19WH
+    NjkD0SqGcGPLNQ7THVlVjxa7fjCpNnm4y3bTzPQjXZu7MpS+H0PyXsLQ1AyCJfn5
+    Pg4NOk8lY9RIAPZ6OkrSD9FLIXva1sYHWu8yXbV0qbh9huQO9+Wtq7lQsQIDAQAB
+    oIHsMIHpBgkqhkiG9w0BCQ4xgdswgdgwgdUGA1UdEQSBzTCByoIKa3ViZXJuZXRl
+    c4ISa3ViZXJuZXRlcy5kZWZhdWx0ghZrdWJlcm5ldGVzLmRlZmF1bHQuc3Zjghxr
+    dWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmxvY2Fsgg1teS1rdWJlcm5ldGVzghVteS1r
+    dWJlcm5ldGVzLmRlZmF1bHSCGW15LWt1YmVybmV0ZXMuZGVmYXVsdC5zdmOCH215
+    LWt1YmVybmV0ZXMuZGVmYXVsdC5zdmMubG9jYWyHBFFFm1uHBKwREB2HBH8AAAEw
+    DQYJKoZIhvcNAQELBQADggEBAIDfL3a8MWbnIsIZ1q1SEH2aYIft1O9gXrfI54FH
+    E1INsklI3REXOA/Gwllk3dlWbAa4K2HDROCVipjhCfKjiKMw07iia8rf11liQU4h
+    nJcucTDEIzWEfxK0hYSiG2qq8EqWvluhA6IzYQ3ZdL+/Hozg9LJh2gwl5dXrAcS9
+    /CAk9paVSj1dJnutVwxz/8FxXtOf4kdDUXtSAIZhtT3Aa+0FgFavGJXAWv7dtGBb
+    /Fc3i9orZhWNp9UsBKQkrt/asCrIl3oAzPt37Gqg4y769VGB4hFW1ntKko71DVeK
+    ZnA7X0psokzUMyqERQCRjiRzwSse3AaKfUBALkLG4ZlOW4Y=
+    -----END CERTIFICATE REQUEST-----
+  kubernetes.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIIEzjCCA7agAwIBAgIUZ62buo7pd/uv2XG9nEEp/Ig8vM8wDQYJKoZIhvcNAQEL
+    BQAwaDELMAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8GA1UEBxMIUG9y
+    dGxhbmQxEzARBgNVBAoTCkt1YmVybmV0ZXMxCzAJBgNVBAsTAkNBMRMwEQYDVQQD
+    EwpLdWJlcm5ldGVzMB4XDTIwMDgyNTAyNDkwMFoXDTIxMDgyNTAyNDkwMFowfTEL
+    MAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8GA1UEBxMIUG9ydGxhbmQx
+    EzARBgNVBAoTCkt1YmVybmV0ZXMxIDAeBgNVBAsTF0t1YmVybmV0ZXMgVGhlIEhh
+    cmQgV2F5MRMwEQYDVQQDEwprdWJlcm5ldGVzMIIBIjANBgkqhkiG9w0BAQEFAAOC
+    AQ8AMIIBCgKCAQEAsA/34nUBf366wcGlEYvmTMSlYbMKO0hU9kh4GcPS6sAvUHF0
+    M1U4ea/FI19wo243qSTE7pJdQd7LDz4TENsbuJ5oeve9LAryM8uC1TBeQbxqnXuw
+    msD/aNH9CrNLSNwIjRO5zUNaRkUDLZ9OIeSRG2DE30Q3gJKqeRGuS59gF8S3YOKh
+    qAL2FW3speRvcZ7GMvFWlLbGxcvE2u1Rg0nYt9pm19WHNjkD0SqGcGPLNQ7THVlV
+    jxa7fjCpNnm4y3bTzPQjXZu7MpS+H0PyXsLQ1AyCJfn5Pg4NOk8lY9RIAPZ6OkrS
+    D9FLIXva1sYHWu8yXbV0qbh9huQO9+Wtq7lQsQIDAQABo4IBWTCCAVUwDgYDVR0P
+    AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB
+    Af8EAjAAMB0GA1UdDgQWBBSILqzJ/ev97xtUK6RTmoZWXlu5bDAfBgNVHSMEGDAW
+    gBQ+RCZRBVNHj2aKtNZugL6CmSixejCB1QYDVR0RBIHNMIHKggprdWJlcm5ldGVz
+    ghJrdWJlcm5ldGVzLmRlZmF1bHSCFmt1YmVybmV0ZXMuZGVmYXVsdC5zdmOCHGt1
+    YmVybmV0ZXMuZGVmYXVsdC5zdmMubG9jYWyCDW15LWt1YmVybmV0ZXOCFW15LWt1
+    YmVybmV0ZXMuZGVmYXVsdIIZbXkta3ViZXJuZXRlcy5kZWZhdWx0LnN2Y4IfbXkt
+    a3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5sb2NhbIcEUUWbW4cErBEQHYcEfwAAATAN
+    BgkqhkiG9w0BAQsFAAOCAQEAgoR7OW91S3Vo+zOci9q0b8rgrwFM1wlCV+VdguRu
+    wX+U3QBdAtRbW1pqe/yGChCozN0/E4zxFV88wWha5qEGgd1Ll4eSC+MB+zXnyP20
+    XsLKagh6HzU6kYv3OEqf1OUPOTct9k8QEjE5uLNc021dUw0DljDbpGaKQsDP39Eh
+    DIslWBi1tcHS5ZlIfgr7VHG0h+az5TleiEVbinlOgrPUY3ttqxuUzR4RuCzbcnoU
+    7rbbpa13RnNC3gH6oeJHQkfI+V8XfnG2De98CO2Sssdj08ztiVCqzyNGG4z8gI6F
+    FpyLYoRCYmXvuXg2FerSrYTSgm7fIWlk1BTdBowT78pvZw==
+    -----END CERTIFICATE-----
+  service-account-csr.json: |
+    {
+      "CN": "service-accounts",
+      "key": {
+        "algo": "rsa",
+        "size": 2048
+      },
+      "names": [
+        {
+          "C": "US",
+          "L": "Portland",
+          "O": "Kubernetes",
+          "OU": "Kubernetes The Hard Way",
+          "ST": "Oregon"
+        }
+      ]
+    }
+  service-account-key.pem: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEpAIBAAKCAQEAqXAazScbuTVjjbRb81z9kf/4W1XsxWAoEpJ188qOZrK9M5f3
+    FqHhCHRzXBwXNUjded/chahck8r1PK2OOJw6SnMgGlgNq4K9vY9i8ZkgpNVed/4/
+    6VjBKWmTAmG0RHYldYKlEQVEP9gJB6fXSef7gA1cF7T30TUuvnIUMu3p2Bsd290I
+    ITaJ8R88WC75o+8btm72frgxdKrX6VpaCzv7vpgdYFyTPWjbjvayt/gf9zPeYFMB
+    l3qHj0kXJ6InJqeh471sMyFIUS44CUZc4peVJna/Pi42/6tI3asIuIZgTm0zjowp
+    5BNU/Z4Vzdl/1JVBLC7gSgRT3WAoN2kEYV6ijQIDAQABAoIBAQCLjwbES54OIudo
+    5FGIVeOVydvqfw+SUu0uvuvgbcp01Gv6fwTJ43PS3vfVul1zSh0CMV0VyeLW6Kit
+    3dXy0ttATyr2B+jah8l4xQ2eKZ41pnk1JHnH3Y7caVTo9Ujhyt53t6/2IPxiCbMG
+    VzyAZ09D3b0o2an063Ug8B2rBUNC91t8Oxc8oYl2jWP7GTYnrGe1p6Vj0HmTrqFf
+    9SraYuW5TzIwcoStjCGMIITjG9X8V33ax03V/8aX2kAEcHakeV8Bet0g1OHnexVe
+    TepcFpDaon328QLCpHhB174isiqDZjfOljefjUVD8RWouO/d8ivcZqIESQzrjA1F
+    VPBByJ+BAoGBANh11ZrFuFJIG77QbdtdAo2dAZ4xzFspCwdkwFpNvt2RMgWFLx6s
+    KNf+yf71pFlaTf9sXj94nwVxXay8qZFTDtTQpJI/vlTLecCOa3OVPm3FVUD/QAjd
+    98jsddN0pV5wR0ytMnZ4gyBUdTU7rKW9TJhahmPzF4gbQrleH4fsEYEJAoGBAMhj
+    ZiC9KnR6Qg9x88MfPuNDykiO1UZx+wlDj3USWifZ3pyl1KHsn+lYblVimevx6hc+
+    v89ksoLletkwmR0Y2zLQ679RfLMUWsXIDCKjj/3ZMesWvONahRq58sGczw5S2RPC
+    a3I/903AmG6g8MVrQRnPndUCqirorSVQhZ0OAWplAoGAFiVQGkqaRgjMleQbKTNF
+    3Jkwni+4GaeEUlhTeam0mlSNipUKshepAhg2MFiPXPjpO/WpWtMLafIkRFT1AEJA
+    JTPHcpME9QXwSewIQEYHohFrXIAA3Cdhf3P5xg2MEbJpCQY7QHWp7LfXWf/l9Pr+
+    CCRS1Yz8XldzpyVjEnPrgokCgYEAhw/X6gEV+GPe2qIndkA9Fti+IqGCxnRUiy3q
+    JzIzaeDC1jo/UtQ2BAUCeLJ4pDrtWLWGeraYSvl5D6Jd0OrL8zg1bUHzFpCFjgED
+    jOVJTAN0TcuJjIOaayUhpbWXKURV46eK2/qZKOLC2u3G2okr28W/z654G2uwKBJZ
+    vD2QXrECgYAiOUdb05v7GrfXSLuNx57wi3iNw/vq+H3/aH3gzRUSvKrFaQLqpR61
+    ZZxlkvXWtRkhiVpyYvBlKyx4ZkjyBh4+DDTd0SbYYTBuBfW0wWgsntEg1oBCwBqA
+    vLyPYsptT66XI1QByGTtf3SI6pP9lR5GxAPqovWE/Cx0H+DZUj3TZg==
+    -----END RSA PRIVATE KEY-----
+  service-account.csr: |
+    -----BEGIN CERTIFICATE REQUEST-----
+    MIICyTCCAbECAQAwgYMxCzAJBgNVBAYTAlVTMQ8wDQYDVQQIEwZPcmVnb24xETAP
+    BgNVBAcTCFBvcnRsYW5kMRMwEQYDVQQKEwpLdWJlcm5ldGVzMSAwHgYDVQQLExdL
+    dWJlcm5ldGVzIFRoZSBIYXJkIFdheTEZMBcGA1UEAxMQc2VydmljZS1hY2NvdW50
+    czCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKlwGs0nG7k1Y420W/Nc
+    /ZH/+FtV7MVgKBKSdfPKjmayvTOX9xah4Qh0c1wcFzVI3Xnf3IWoXJPK9Tytjjic
+    OkpzIBpYDauCvb2PYvGZIKTVXnf+P+lYwSlpkwJhtER2JXWCpREFRD/YCQen10nn
+    +4ANXBe099E1Lr5yFDLt6dgbHdvdCCE2ifEfPFgu+aPvG7Zu9n64MXSq1+laWgs7
+    +76YHWBckz1o2472srf4H/cz3mBTAZd6h49JFyeiJyanoeO9bDMhSFEuOAlGXOKX
+    lSZ2vz4uNv+rSN2rCLiGYE5tM46MKeQTVP2eFc3Zf9SVQSwu4EoEU91gKDdpBGFe
+    oo0CAwEAAaAAMA0GCSqGSIb3DQEBCwUAA4IBAQAHdHThTI76GDVHQ9GtwyCm+FS5
+    N1HxmmIc4dNyMEunbX49Zrt+N3xYt3brJqKBH9/ThQRxxzQtRSa9hqI6EJuXYpNe
+    tobpenKUV3ZI4IJZWspuKewx44tvob+t/6ucf6cNKfSVtw112Q5On3FDnDhwkirO
+    0MBhoNiQ76G1Bt2BE1GeRQ30wlHjwvPAwfumqNlhdwHWorYpnaNDDiAVdfiQupfq
+    JAnSh57KQitTPUt/oqu9S/i7CXPA20jGiJmu+npEnFVhGQ12prkuVcL7w7o1Vj0s
+    w/qQrpl3we35KT7VS5mcwQ+UY6A40HWqMQipQGWnaZkgyUSS6YfH3SVhWT8s
+    -----END CERTIFICATE REQUEST-----
+  service-account.pem: |
+    -----BEGIN CERTIFICATE-----
+    MIID+TCCAuGgAwIBAgIUdOJ0tfdBWdR9YVE11wk4QPngjxMwDQYJKoZIhvcNAQEL
+    BQAwaDELMAkGA1UEBhMCVVMxDzANBgNVBAgTBk9yZWdvbjERMA8GA1UEBxMIUG9y
+    dGxhbmQxEzARBgNVBAoTCkt1YmVybmV0ZXMxCzAJBgNVBAsTAkNBMRMwEQYDVQQD
+    EwpLdWJlcm5ldGVzMB4XDTIwMDgyNTAyNTAwMFoXDTIxMDgyNTAyNTAwMFowgYMx
+    CzAJBgNVBAYTAlVTMQ8wDQYDVQQIEwZPcmVnb24xETAPBgNVBAcTCFBvcnRsYW5k
+    MRMwEQYDVQQKEwpLdWJlcm5ldGVzMSAwHgYDVQQLExdLdWJlcm5ldGVzIFRoZSBI
+    YXJkIFdheTEZMBcGA1UEAxMQc2VydmljZS1hY2NvdW50czCCASIwDQYJKoZIhvcN
+    AQEBBQADggEPADCCAQoCggEBAKlwGs0nG7k1Y420W/Nc/ZH/+FtV7MVgKBKSdfPK
+    jmayvTOX9xah4Qh0c1wcFzVI3Xnf3IWoXJPK9TytjjicOkpzIBpYDauCvb2PYvGZ
+    IKTVXnf+P+lYwSlpkwJhtER2JXWCpREFRD/YCQen10nn+4ANXBe099E1Lr5yFDLt
+    6dgbHdvdCCE2ifEfPFgu+aPvG7Zu9n64MXSq1+laWgs7+76YHWBckz1o2472srf4
+    H/cz3mBTAZd6h49JFyeiJyanoeO9bDMhSFEuOAlGXOKXlSZ2vz4uNv+rSN2rCLiG
+    YE5tM46MKeQTVP2eFc3Zf9SVQSwu4EoEU91gKDdpBGFeoo0CAwEAAaN/MH0wDgYD
+    VR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNV
+    HRMBAf8EAjAAMB0GA1UdDgQWBBRekA2Ga9eZvwh8unTfwbUZwTa9OjAfBgNVHSME
+    GDAWgBQ+RCZRBVNHj2aKtNZugL6CmSixejANBgkqhkiG9w0BAQsFAAOCAQEAzrfm
+    tPyc2smYoUv5ZPxnasbzMRWz+s/i3IpmB3a+4FEe+JVdRw3VEWH5YEeI57peqmFQ
+    LSbGGj8OIAbbFZE8GIJjpwYJXuPpditiUahrJEBEdX7TM51m7zEWoKhI9BjogQqa
+    fvKtkQuRTthlgD6KQEbqjLC9XXv239d6ZWxtj/6kreqs1M8CLAkSbJrtT1WqvoR/
+    ByJ7gyfpGQYekWpwwLAnoDSQlXxfTe+HXQ66/tB6cA2kn1k6i/KSwVrPo7wdUMjC
+    XQzzptMcKjD1dUVn1Tobe0k+U7FX8/73qBTlaRdZDMs0Z+6JbSVU6onOKp8Oj+ZW
+    mCg0zY3GhWAsXj4f/Q==
+    -----END CERTIFICATE-----
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: config
